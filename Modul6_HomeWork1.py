@@ -65,7 +65,8 @@ class AddressBook(UserDict):
         if name in self.data:
             self.data.pop(name)
     def __str__(self):
-        return f"information about contact: {self.data.items()}"
+        contacts = "\n".join(str(record) for record in self.data.values())
+        return f"Information about contacts:\n{contacts}"
 
 # Створення нової адресної книги
 book = AddressBook()
