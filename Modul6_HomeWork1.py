@@ -13,7 +13,7 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, phone):
-        if len(phone) == 10:
+        if len(phone) == 10 and phone.isdigit():
             super().__init__(phone)
         else:
             raise ValueError("Phone number must contain exactly 10 digits.")
@@ -34,13 +34,12 @@ class Record:
                 break
 
     def edit_phone(self, old_number, new_number):
-        try:
-            for phone in self.phones:
-                if phone.value == old_number:
-                    phone.value = new_number  
-                    break
-        except ValueError as e:
-            print(e)
+        if old_number is None:
+            raise ValueError("Існуючий номер не валідний")
+        for phone in self.phones:
+            if phone.value == old_number:
+                phone.value = new_number
+                break
 
     def find_phone(self, phone_number):
         try:
@@ -68,7 +67,7 @@ class AddressBook(UserDict):
         contacts = "\n".join(str(record) for record in self.data.values())
         return f"Information about contacts:\n{contacts}"
 
-# Створення нової адресної книги
+# Створення нової адресно книги
 book = AddressBook()
 
 # Створення запису для John
@@ -100,3 +99,4 @@ print(f"{john.name}: {found_phone}")  # Виведення: John: 5555555555
 
 # Видалення запису Jane
 book.delete("Jane")
+
