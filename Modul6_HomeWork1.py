@@ -35,11 +35,19 @@ class Record:
 
     def edit_phone(self, old_number, new_number):
         if old_number is None:
-            raise ValueError("Існуючий номер не валідний")
+            raise ValueError("old_number can`t be None.")
+        try:
+            new_phone = Phone(new_number)
+        except ValueError as e:
+            raise ValueError(f"Новый номер невалиден: {e}")
+
         for phone in self.phones:
             if phone.value == old_number:
-                phone.value = new_number
+                phone.value = new_phone.value
                 break
+        else:
+            raise ValueError(f"Can`t find {old_number}.")
+
 
     def find_phone(self, phone_number):
         try:
@@ -99,4 +107,3 @@ print(f"{john.name}: {found_phone}")  # Виведення: John: 5555555555
 
 # Видалення запису Jane
 book.delete("Jane")
-
